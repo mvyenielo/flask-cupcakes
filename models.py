@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+# TODO: global constant for image url
+
 class Cupcake(db.Model):
     """Cupcake model"""
 
