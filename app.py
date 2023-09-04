@@ -49,6 +49,7 @@ def create_cupcake():
 
     return ((jsonify(cupcake=serialized)), 201)
 
+
 @app.patch('/api/cupcakes/<int:cupcake_id>')
 def update_cupcake(cupcake_id):
     """Update cupcake in DB and return JSON for cupcake"""
@@ -59,13 +60,13 @@ def update_cupcake(cupcake_id):
     cupcake.flavor = data.get("flavor", cupcake.flavor)
     cupcake.size = data.get("size", cupcake.size)
     cupcake.rating = data.get("rating", cupcake.rating)
-    cupcake.image_url = data.get("image_url", cupcake.image_url)
+    if "image_url" in data:
+        cupcake.image_url = data['image_url'] or "https://tinyurl.com/demo-cupcake"
 
     db.session.commit()
 
-    serialized = cupcake.serialize()
+    return jsonify(cupcake=cupcake.serialize())
 
-    return ((jsonify(cupcake=serialized)), 202)
 
 @app.delete('/api/cupcakes/<int:cupcake_id>')
 def delete_cupcake(cupcake_id):

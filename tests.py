@@ -105,3 +105,41 @@ class CupcakeViewsTestCase(TestCase):
             })
 
             self.assertEqual(Cupcake.query.count(), 2)
+
+
+    def test_update_cupcake(self):
+        """Tests updating of a cupcake in database"""
+
+        with app.test_client() as client:
+            url = f"/api/cupcakes/{self.cupcake_id}"
+            #TODO: use dummy data up top for test.
+            resp = client.patch(url, json={
+                'flavor': 'Chocolate'
+            })
+
+            self.assertEqual(resp.status_code, 200)
+
+            self.assertEqual(resp.json, {'cupcake': {
+                "flavor": "Chocolate",
+                "id": self.cupcake_id,
+                "image_url": "http://test.com/cupcake.jpg",
+                "rating": 5,
+                "size": "TestSize"
+                }
+            })
+
+
+    def test_delete_cupcake(self):
+        """test the deletion of a cupcake"""
+
+        with app.test_client() as client:
+            url = f"/api/cupcakes/{self.cupcake_id}"
+            resp = client.delete(url)
+
+            self.assertEqual(resp.status_code, 200)
+
+            self.assertEqual(resp.json, {
+                "deleted": self.cupcake_id
+            })
+
+        #TODO: make a test for getting a 404 when trying to delete a nonexistent cupcake
