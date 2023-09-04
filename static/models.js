@@ -1,5 +1,6 @@
+"use strict"
 
-const BASE_URL = "http://localhost:5000"
+const BASE_URL = "http://localhost:5001"
 
 class Cupcake {
 
@@ -17,10 +18,9 @@ class Cupcake {
     });
 
     const cupcakeData = await response.json();
+    const cupcakeList = cupcakeData.cupcakes.map(cupcake => new Cupcake(cupcake))
 
-    const cupcakes = cupcakeData.map(cupcake => new Cupcake(cupcake))
-
-    return cupcakes;
+    return cupcakeList;
   }
 
 }
