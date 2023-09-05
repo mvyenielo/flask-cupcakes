@@ -26,6 +26,21 @@ function makeCupcakeDiv(cupcake) {
     `)
 }
 
+async function handleCupcakeSubmit(evt) {
+  evt.preventDefault();
+  const flavor = $("#flavor").val();
+  const size = $("#size").val()
+  const rating = $("#rating").val()
+  const image_url = $("#image_url").val()
+
+  const newCupcake = await Cupcake.addCupcake(flavor, size, rating, image_url);
+  const cupcakeDiv = makeCupcakeDiv(newCupcake);
+
+  $CUPCAKE_CONTAINER.append(cupcakeDiv);
+}
+
+$("#add-cupcake").on("submit", handleCupcakeSubmit)
+
 //conductor function that gets list of cupcakes
 async function start() {
   console.debug('Start')

@@ -1,6 +1,6 @@
 "use strict"
 
-const BASE_URL = "http://localhost:5001"
+const BASE_URL = "http://localhost:5000"
 
 class Cupcake {
 
@@ -23,4 +23,23 @@ class Cupcake {
     return cupcakeList;
   }
 
+  static async addCupcake(flavor, size, rating, image_url) {
+    const response = await fetch(`${BASE_URL}/api/cupcakes`, {
+      method: "POST",
+      body: JSON.stringify({
+          flavor: flavor,
+          size: size,
+          rating: rating,
+          image_url: image_url
+      }),
+      headers: {"Content-Type": "application/json"}
+    });
+
+    const jsonResponse = await response.json();
+
+    return new Cupcake(jsonResponse.cupcake);
+  }
 }
+
+
+
